@@ -4,16 +4,25 @@ const lista = document.getElementById("lista-usuarios");
 document.addEventListener("DOMContentLoaded", () => {
   cargarUsuarios();
 
-  const toggleBtn = document.getElementById("toggle-tema");
-  toggleBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    toggleBtn.textContent = document.body.classList.contains("dark-mode") ? "🌞" : "🌙";
-  });
-
   const borrarBtn = document.getElementById("borrar-datos");
-  borrarBtn.addEventListener("click", () => {
-    alert("Esta función solo está disponible en el backend (no implementada aún).");
-  });
+  if (borrarBtn) {
+    borrarBtn.addEventListener("click", () => {
+      if (confirm("¿Seguro que quieres borrar todos los registros?")) {
+        fetch("http://localhost:5000/borrar-todo", {
+          method: "DELETE"
+        })
+        .then(res => res.json())
+        .then(data => {
+          alert(data.mensaje);
+          cargarUsuarios(); // Recargar la lista
+        })
+        .catch(error => {
+          alert("Error al intentar borrar los registros.");
+          console.error(error);
+        });
+      }
+    });
+  }
 });
 
 form.addEventListener("submit", function (e) {
