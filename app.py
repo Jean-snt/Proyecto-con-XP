@@ -7,10 +7,13 @@ app = Flask(__name__)
 CORS(app)
 
 usuarios = []
+# Funciones de validación
+
 
 def validar_nombre(nombre):
     return nombre.strip() != ""
-
+    
+    
 def validar_email(email):
     return re.match(r'^[^@\s]+@[^@\s]+\.[^@\s]+$', email)
 
@@ -37,10 +40,11 @@ def registrar_usuario():
         "telefono": telefono,
         "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
-
+ #   Verificar si el usuario ya existe
     usuarios.append(nuevo_usuario)
     return jsonify({"mensaje": "Usuario registrado con éxito."}), 200
 
+# Obtener todos los usuarios registrados
 @app.route('/usuarios', methods=['GET'])
 def obtener_usuarios():
     return jsonify(usuarios), 200
