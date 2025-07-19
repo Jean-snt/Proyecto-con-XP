@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Clonar el repositorio
+        uses: actions/checkout@v3
+
+      - name: 🐍 Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: 📦 Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: 🧪 Ejecutar pruebas
+        run: pytest
